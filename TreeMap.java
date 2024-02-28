@@ -55,7 +55,6 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 	 * @return whether the subtree is fine. If false is 
 	 * returned, there is a problem, which has already been reported.
 	 */
-	//allInRange from HW 9 but added the other invariant checks
 	private boolean checkInRange(Node<K,V> node, Node<K, V> p, K lower, K upper) {
 		//if node is null then it is in range because null is unbound
 		if (node == null) return true;
@@ -71,8 +70,8 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 		//if hi isn't null and nodes data is after the given range or exactly the hi, then report
 		if (upper != null && (comparator.compare(upper, node.key)<=0)) return report("Node after range");
 		//recursive call on itself with different node being passed in each time going through the left and right of tree
-		return checkInRange(node.left, node, lower, node.key) && checkInRange(node.right, node, node.key, upper);// TODO
-		// TODO
+		return checkInRange(node.left, node, lower, node.key) && checkInRange(node.right, node, node.key, upper);//  
+		//  
 	}
 	
 	/**
@@ -100,7 +99,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 		if (!checkInRange(dummy.left, dummy, null, null)) return false;
 		//6
 		if (countNodes(dummy.left) != numItems) return report("number of nodes not equal to manyItems");
-		// TODO:
+		//  :
 		// 1. check that comparator is not null
 		// 2. check that dummy is not null
 		// 3. check that dummy's key, right subtree and parent are null
@@ -129,7 +128,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 		else comparator = c;
 		//create dummy node
 		dummy = new Node<K, V>(null, null);
-		// TODO
+		//  
 		// Update the parameter comparator if necessary
 		// Create the dummy node.
 		assert wellFormed() : "invariant broken after constructor(Comparator)";
@@ -167,10 +166,10 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 	private Node<K, V> findKey(Object o){
 		return findKeyHelper(dummy.left, asKey(o));
 		
-		 // TODO (non-recursive is fine)
+		 //   (non-recursive is fine)
 	}
 
-	// TODO: many methods to override here:
+	//  : many methods to override here:
 	// size, containsKey(Object), get(Object), clear(), put(K, V), remove(Object)
 	// make sure to use @Override and assert wellformedness
 	// plus any private helper methods.
@@ -293,9 +292,8 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 		if (r.left != null) return firstInTree(r.left);
 		//return r 
 		return r;
-		// TODO: non-recursive is fine
+		//  : non-recursive is fine
 	}
-	//HW 9 remove helper with parents
 	//uses recursion on itself updating arguments
 	private Node<K, V> doRemove(Node<K, V> r, K target){
 		if (r.key.equals(target)) {
@@ -372,7 +370,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 		
 		@Override //required
 		public int size() {
-			// TODO: Easy: delegate to TreeMap.size()
+			//  : Easy: delegate to TreeMap.size()
 			assert wellFormed() : "Invariant broken at start of EntrySet.size";
 			//delegate
 			return TreeMap.this.size();
@@ -407,7 +405,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 			assert wellFormed() : "Invariant broken at end of EntrySet.contains";
 			//check if keys value and key is the same as n's value and key
 			return k.equals(n);
-			// TODO if o is not an entry (instanceof Entry<?,?>), return false
+			//   if o is not an entry (instanceof Entry<?,?>), return false
 			// Otherwise, check the entry for this entry's key.
 			// If there is no such entry return false;
 			// Otherwise return whether the entries match (use the equals method of the Node class). 
@@ -429,13 +427,13 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 			TreeMap.this.remove(x1.getKey());
 			assert wellFormed() : "Invariant broken at end of EntrySet.remove";
 			return true;
-			// TODO: if the tree doesn't contain x, return false
+			//  : if the tree doesn't contain x, return false
 			// otherwise do a TreeMap remove.
 			// make sure that the invariant is true before returning.
 		}
 		@Override //efficiency
 		public void clear() {
-			// TODO: Easy: delegate to the TreeMap.clear()
+			//  : Easy: delegate to the TreeMap.clear()
 			assert wellFormed() : "Invariant broken at start of EntrySet.clear";
 			//delegate
 			TreeMap.this.clear();
@@ -455,7 +453,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 		int colVersion = version;
 		
 		boolean wellFormed() {
-			// TODO: See Homework description for more details.  Here's a summary:
+
 			
 			// (1) check the outer wellFormed()
 			if (!TreeMap.this.wellFormed()) return false;
@@ -486,7 +484,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 		MyIterator(boolean ignored) {} // do not change this
 		
 		MyIterator() {
-			// TODO: initialize next to the leftmost node
+			//  : initialize next to the leftmost node
 			next = firstInTree(dummy);
 			assert wellFormed() : "invariant broken after iterator constructor";
 		}
@@ -502,7 +500,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 			assert wellFormed() : "Invariant broken at end of hasNext()";
 			//if next is dummy has no next
 			return next != dummy;
-			// TODO: easy!
+			//  : easy!
 		}
 		@Override //required
 		public Entry<K, V> next() {
@@ -512,7 +510,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 			current = next;
 			//next is the node after next
 			next = getNext(current);
-			// TODO
+			//  
 			// We don't use (non-existent)nextInTree: 
 			// but rather parent pointers in the second case.
 			assert wellFormed() : "invariant broken at end of next()";
@@ -532,7 +530,7 @@ public class TreeMap<K,V>  extends AbstractMap<K,V> {
 			TreeMap.this.remove(current.key);
 			//update current
 			current = null;
-			// TODO: check that there is something to remove.
+			//  : check that there is something to remove.
 			// Use the remove method from TreeMap to remove it.
 			// (See handout for details.)
 			// After removal, record that there is nothing to remove any more.
